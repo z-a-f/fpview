@@ -5,7 +5,18 @@ import math
 class ImgTools():
 
     def create_from_f(self, f):
-        """Create a Low-Flow Map usable for plotting
+        """Create the image data using a box function `f`
+
+        The function pases the values in the `raw_data` to the `f`. The results
+        are concatenated horizontally to produce rows of an image. Function `f`
+        should return a `list` or `numpy.ndarray`
+
+        Args:
+            f:  
+                Function for generating the image boxes.
+
+        NOTE:
+            `f` has to be able to accept 1 argument
         """
         assert len(self.raw_data) > 0
         assert len(self.raw_data[0]) > 0
@@ -19,11 +30,37 @@ class ImgTools():
         self.img_data = np.array(self.img_data)
 
     def create_block(self, val):
+        """Create a solid monochrome box
+
+        Create a box of size `__box_size x __box_size`.
+
+        Args:
+            val:
+                Binary input. If `True` or non-0, creates a box made of `fg` 
+                pixels, otherwise made of `bg` pixels
+
+        Returns:
+            Monochrome box
+        """
         if val: return [[self.fg]*self.get_box_size() for _ in xrange(self.get_box_size())]
         else: return [[self.bg]*self.get_box_size() for _ in xrange(self.get_box_size())]
         # return self.__get_block(val)
 
     def create_block_gradient_alpha(self, val):
+        """Create a box with variable alpha channel
+
+        Create a box of size `__box_size x __box_size` with its transparancy
+        scaled to `val`
+
+        Args:
+            val:
+                Scaling factor ranging from 0 to `q_max`. Sets the value of the
+                alpha channel of the current box. The scaling is done using
+                `val / q_max`. The color is set to `fg`
+
+        Returns:
+            A single color box with transparancy set to `val/q_max`
+        """
         color = self.fg[:]
         # self.q_max = float('inf')
         if type(color) is int or type(color) is float:
@@ -36,18 +73,16 @@ class ImgTools():
 
 
     def create_line(self, rot=0):
-        """
-        Create a line on a 8x8 grid
+        """Create a line on a 8x8 grid
 
         Args:
             rot:    Rotation of the line. 0 represents vertical line (range 0-15)
-            bg: Background value
-        fg:     Foreground value
 
         Returns:
-            8x8 np.array() with the line
+            `__box_size x __box_size` np.array() with a line
 
-        The rotation is in the increments of 11.25 degrees clockwise
+        NOTE:
+            The rotation is in the increments of 11.25 degrees clockwise
         """
         if rot == -1:
             return [[self.bg]*self.get_box_size() for _ in xrange(self.get_box_size())]
@@ -120,13 +155,16 @@ class ImgTools():
         return res
 
     def rotate_point(self, center, point, angle):
-        """
-        Rotate point around center by angle
+        """Rotate point around center by angle
 
         Args:
-            center: Center point
-            point: Point to be rotated
-        angle: Angle in radians to rotate by
+            center: 
+                Center point
+            point: 
+                Point to be rotated
+            angle: 
+                Angle in radians to rotate by
+        
         Returns:
             New coordinates for the point
         """

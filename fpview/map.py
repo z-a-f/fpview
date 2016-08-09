@@ -19,22 +19,33 @@ class Map(object):
     
 
     def help(self):
+        """Help - just shows the `__doc__`"""
         return self.__doc__
 
     def get_box_size(self):
+        """Getter for the __box_size"""
         return self.__box_size
 
-    def set_box_size(self, num):
+    def set_box_size(self, num=8):
+        """Setter for the __box_size.
+
+        Args:
+            num:
+                New value for the `__box_size` (default=8)
+
+        NOTE: 
+            Resets `img_data`
+        """
         self.__box_size = num
         self.img_data = None
 
     def load(self, name):
-        """Load '... Map' of the fingerprint ridges.
+        """Loads '...Map' of the fingerprint ridges.
 
         Args:
-            name: Name of the file, filehandler, or variable to be loaded
+            name: 
+                Name of the file, filehandler, or variable to be loaded
         """
-
         self.raw_data = []
         if type(name) is str:
             with open(name, 'r') as f:
@@ -52,19 +63,27 @@ class Map(object):
 
     @abc.abstractmethod
     def create(self):
-        """
-        Create a Direction Map usable for plotting 
-        """
+        """Create a ...Map usable for plotting"""
         pass
 
-    def plot(self, ax = None, *args, **kwargs):
-        """
-        Plot and create/attach axes
-        """
+    def plot(self, ax = None, cmap='gray', *args, **kwargs):
+        """Plot and create/attach axes
 
+        Args:
+            ax:
+                Axes of a figure to be attached to. If `None`, a new 
+                `matplotlib.pyplot.subplots()` is created (default=None)
+
+        Returns:
+            Axes of the plotted image
+
+        NOTE:
+            Any additional arguments passed to this function will be directly
+            passed to the `ax.imshow()`
+        """
         if ax is None:
             fig, ax = plt.subplots()
-        ax.imshow(self.img_data, cmap='gray', *args, **kwargs)
+        ax.imshow(self.img_data,  *args, **kwargs)
 
         return ax
 

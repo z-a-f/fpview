@@ -5,8 +5,7 @@ from .map import Map
 from .imgtools import ImgTools
 
 class LowFlowMap(Map,ImgTools):
-    """
-    Manipulate the 'Low Flow Map' file
+    """Manipulate the 'Low Flow Map' file
 
     The Low-Flow Map represents areas in the image having non-determinable 
         ridge flow. Ridge flow is determined using a set of discrete cosine wave 
@@ -24,6 +23,40 @@ class LowFlowMap(Map,ImgTools):
         those that remain non-determinable after extensive interpolation and 
         smoothing of neighboring ridge flow directions.
 
+    Usage:
+        LowFlowMap(name, [bg], [fg], [box])
+
+        name:   
+            Name of the file to open, name of the file pointer, or name of the 
+            variable with the loaded map
+        bg:
+            RGBA Background color to use (default=[0,0,0,0])
+        fg: 
+            RGBA Foreground color to use (default=[1,1,1,1])
+        box:
+            Box size (default=8)
+
+    Methods:
+        create():
+            Creates the `img_data` variable from the `raw_data`
+
+    Internal variables:
+        bg, fg:
+            Background and foreground
+
+    Inherited variables and methods:
+        raw_data:   
+            Initially loaded raw_data
+        img_data:   
+            Converted data
+        load():
+            Loads the file/variable (Called in the __init__)
+        plot(ax):   
+            Plots the current img_data and attaches it to `ax`. Returns `ax`
+        set_box_size(num):
+            Setter for the single block size (default=8)
+        get_box_size():
+            Getter for the single block size
     """
 
     def __init__(self, name, bg = [0,0,0,0], fg = [1,1,1,1], box = 8):
@@ -33,32 +66,8 @@ class LowFlowMap(Map,ImgTools):
         self.load(name)
 
     def create(self):
-        """Create a Low-Flow Map usable for plotting
-        """
+        """Create a Low-Flow Map usable for plotting"""
         self.create_from_f(self.create_block)
-
-if __name__ == "__main__":
-    import matplotlib.pyplot as plt
-
-    from os import sys, path
-    test_dir = path.dirname(path.abspath(__file__))+'/tests/'
-
-    fig, ax = plt.subplots(1,2)
-
-    for a in ax:
-        a.set_frame_on(False)
-        a.set_axis_off()
-
-    lfm0 = LowFlowMap(test_dir+'test.lfm', 0)
-    lfm1 = LowFlowMap(lfm0.raw_data, 1)
-
-    lfm0.create()
-    lfm1.create()
-
-    lfm0.plot(ax[0], alpha=.9)
-    lfm1.plot(ax[1])
-    # plt.axis('off')
-    plt.show()
 
 
 

@@ -6,8 +6,7 @@ from .map import Map
 from .imgtools import ImgTools
 
 class DirectionMap(Map,ImgTools):
-    """
-    Manipulate the 'Direction Map'.
+    """Manipulate the 'Direction Map'.
 
     The Direction Map represents the direction of ridge flow within the 
     fingerprint image. The map contains a grid of integer directions, where 
@@ -20,26 +19,39 @@ class DirectionMap(Map,ImgTools):
     neighborhood where no valid ridge flow was determined.
 
     Usage:
-        DirectionMap(name, bg)
+        DirectionMap(name, [bg], [fg], [box])
 
-        name:   Name of the .dm file to open, name of the file pointer, or name of the variable with the loaded map
-        bg:     Background color to use (default=0). Note that the foreground is computed as `fg = 1 - bg`
-
-    Internal variables:
-        raw_data:   Initially loaded raw_data
-        img_data:   Converted data
-        bg, fg:     Background and foreground
-
-    Getters and setters:
-        get_box_size:   Returns the line box size
-        set_box_size:   Sets the line box size
+        name:   
+            Name of the file to open, name of the file pointer, or name of the 
+            variable with the loaded map
+        bg:
+            RGBA Background color to use (default=[0,0,0,0])
+        fg: 
+            RGBA Foreground color to use (default=[1,1,1,1])
+        box:
+            Box size (default=8)
 
     Methods:
-        create()
-            Converts the loaded direction map to the image format
-        plot(ax)
-            Plots the current img_data and attaches it to `ax`. Returns `ax`
+        create():
+            Creates the `img_data` variable from the `raw_data`
 
+    Internal variables:
+        bg, fg:
+            Background and foreground
+
+    Inherited variables and methods:
+        raw_data:   
+            Initially loaded raw_data
+        img_data:   
+            Converted data
+        load():
+            Loads the file/variable (Called in the __init__)
+        plot(ax):   
+            Plots the current img_data and attaches it to `ax`. Returns `ax`
+        set_box_size(num):
+            Setter for the single block size (default=8)
+        get_box_size():
+            Getter for the single block size
     """
     def __init__(self, name, bg = [0,0,0,0], fg = [1,1,1,1], box = 8):
         self.bg = bg
@@ -48,32 +60,6 @@ class DirectionMap(Map,ImgTools):
         self.load(name)
 
     def create(self):
-        """
-        Create a Direction Map usable for plotting 
-        """
+        """Create a Direction Map usable for plotting"""
         self.create_from_f(self.create_line)
-
-
-if __name__ == "__main__":
-    import matplotlib.pyplot as plt
-
-    from os import sys, path
-    test_dir = path.dirname(path.abspath(__file__))+'/tests/'
-
-    fig, ax = plt.subplots(1,2)
-
-    for a in ax:
-        a.set_frame_on(False)
-        a.set_axis_off()
-
-    dm0 = DirectionMap(test_dir+'test.dm', 0)
-    dm1 = DirectionMap(dm0.raw_data, 1)
-
-    dm0.create()
-    dm1.create()
-
-    dm0.plot(ax[0])
-    dm1.plot(ax[1])
-    # plt.axis('off')
-    plt.show()
     
