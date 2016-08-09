@@ -4,7 +4,7 @@ NIST provides a library for fingerprint processing ([NBIS](http://www.nist.gov/i
 The `mindtct` in the library outputs several test files with the minutia description. The current package
 could be used to visualize the fingerprint data produced by the said application.
 
-<img src="demo.png" alt="Drawing" width="500"/>
+<img src="orig.png" alt="Original" height="400"/><img src="demo.png" alt="Demo" height="400"/>
 
 ## API documentation
 
