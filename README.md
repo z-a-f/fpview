@@ -21,6 +21,7 @@ $> ./demo.py
 
 ## TODO:
 
+- Draw the minutia (origins and directions)
 - More README documentation
 - More explanation on usage
 - List of the classes/methods/vars
