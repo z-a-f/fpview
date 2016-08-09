@@ -1,6 +1,9 @@
 
-"""@package docstring
-Tools for viewing the fingerprint results extracted by NBIS.
+"""Tools for viewing the fingerprint results extracted by NBIS.
+
+TODO:
+    - Documentation
+    - Minutia plotting
 """
 
 from .dm import DirectionMap
