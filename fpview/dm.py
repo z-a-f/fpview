@@ -41,28 +41,17 @@ class DirectionMap(Map,ImgTools):
             Plots the current img_data and attaches it to `ax`. Returns `ax`
 
     """
-    def __init__(self, name, bg = 0, box = 8):
-        
-        # self.raw_data, self.img_data = self.load(name, bg)
+    def __init__(self, name, bg = [0,0,0,0], fg = [1,1,1,1], box = 8):
         self.bg = bg
-        self.fg = 1 - self.bg
-        self.load(name)
-
+        self.fg = fg
         self.__box_size = box
+        self.load(name)
 
     def create(self):
         """
         Create a Direction Map usable for plotting 
         """
-        assert len(self.raw_data) > 0
-        assert len(self.raw_data[0]) > 0
-        self.img_data = []
-        for row in self.raw_data:
-            line = [self.create_line(x) for x in row]
-            line = np.hstack(line)
-            for row in line:
-                self.img_data.append(row)
-        self.img_data = np.array(self.img_data)
+        self.create_from_f(self.create_line)
 
 
 if __name__ == "__main__":

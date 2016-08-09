@@ -26,25 +26,16 @@ class LowFlowMap(Map,ImgTools):
 
     """
 
-    def __init__(self, name, bg = 0, box = 8):
+    def __init__(self, name, bg = [0,0,0,0], fg = [1,1,1,1], box = 8):
         self.bg = bg
-        self.fg = 1 - self.bg
-        self.load(name)
-
+        self.fg = fg
         self.__box_size = box
+        self.load(name)
 
     def create(self):
         """Create a Low-Flow Map usable for plotting
         """
-        assert len(self.raw_data) > 0
-        assert len(self.raw_data[0]) > 0
-        self.img_data = []
-        for row in self.raw_data:
-            block = [self.create_block(x) for x in row]
-            block = np.hstack(block)
-            for row in block:
-                self.img_data.append(row)
-        self.img_data = np.array(self.img_data)
+        self.create_from_f(self.create_block)
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt

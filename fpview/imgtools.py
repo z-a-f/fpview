@@ -4,10 +4,36 @@ import math
 
 class ImgTools():
 
+    def create_from_f(self, f):
+        """Create a Low-Flow Map usable for plotting
+        """
+        assert len(self.raw_data) > 0
+        assert len(self.raw_data[0]) > 0
+        self.img_data = []
+        for row in self.raw_data:
+            img = [f(x) for x in row]
+            # print len(img), len(img[0])
+            img = np.hstack(img)
+            for r in img:
+                self.img_data.append(r)
+        self.img_data = np.array(self.img_data)
+
     def create_block(self, val):
         if val: return [[self.fg]*self.get_box_size() for _ in xrange(self.get_box_size())]
         else: return [[self.bg]*self.get_box_size() for _ in xrange(self.get_box_size())]
-        return self.__get_block(val)
+        # return self.__get_block(val)
+
+    def create_block_gradient_alpha(self, val):
+        color = self.fg[:]
+        # self.q_max = float('inf')
+        if type(color) is int or type(color) is float:
+            color = [color]*4
+        elif type(color) is list:
+            while len(color) < 4:
+                color = color + [0]
+        color[3] = val*1. / self.q_max
+        return [[color]*self.get_box_size() for _ in xrange(self.get_box_size())]
+
 
     def create_line(self, rot=0):
         """
@@ -29,7 +55,8 @@ class ImgTools():
         assert (0 <= rot <= 15)
         rot = rot*11.25
 
-        res = np.full((self.get_box_size(), self.get_box_size()), self.bg, 'uint8')
+        # res = np.full((self.get_box_size(), self.get_box_size()), self.bg)
+        res = [[self.bg]*self.get_box_size() for _ in xrange(self.get_box_size())]
 
         def bound_point(p):
             while p[0] < 0: p[0] += 1
