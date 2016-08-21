@@ -16,7 +16,7 @@ class QualityMap(Map,ImgTools):
     represent lowest possible quality.
 
     Usage:
-        LowFlowMap(name, [bg], [fg], [box], [qmax])
+        QualityMap(name, [bg], [fg], [box], [qmax])
 
         name:   
             Name of the file to open, name of the file pointer, or name of the 

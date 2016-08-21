@@ -71,9 +71,18 @@ class ImgTools():
         color[3] = val*1. / self.q_max
         return [[color]*self.get_box_size() for _ in xrange(self.get_box_size())]
 
+    
+    # TODO: Need to finish that
+    # def superimpose_blob_line(self, rot = 0):
+    #     res = self.create_line(rot)
 
-    def create_line(self, rot=0):
-        """Create a line on a 8x8 grid
+    #     origin = [(self.get_box_size() - 1) / 2, (self.get_box_size() - 1) / 2]
+    #     res[c[0]]
+
+
+
+    def create_line(self, rot=0, base = None):
+        """Create a line on a 8x8 grid box
 
         Args:
             rot:    Rotation of the line. 0 represents vertical line (range 0-15)
@@ -90,8 +99,10 @@ class ImgTools():
         assert (0 <= rot <= 15)
         rot = rot*11.25
 
-        # res = np.full((self.get_box_size(), self.get_box_size()), self.bg)
-        res = [[self.bg]*self.get_box_size() for _ in xrange(self.get_box_size())]
+        # In case we want to draw something else:
+        if base is None:
+            # res = np.full((self.get_box_size(), self.get_box_size()), self.bg)
+            res = [[self.bg]*self.get_box_size() for _ in xrange(self.get_box_size())]
 
         def bound_point(p):
             while p[0] < 0: p[0] += 1
