@@ -7,7 +7,12 @@ from fpview import (DirectionMap, LowFlowMap, HighCurvatureMap, QualityMap)
 from fpview import (Map,ImgTools)
 
 class TestAll(TestCase):
+    """All tests -- this just plots, and is not an automated test"""
     def test_manual(self):
+        """Manual testing
+
+        This test just generates a plot for further inspection
+        """
         import numpy as np
         import matplotlib.pyplot as plt
         

@@ -3,7 +3,10 @@ import numpy as np
 import math
 
 class ImgTools():
-
+    """Different tools for image plotting
+    
+    TODO: Make a list of the tools here
+    """
     def create_from_f(self, f):
         """Create the image data using a box function `f`
 
@@ -111,7 +114,9 @@ class ImgTools():
             while p[1] >= self.get_box_size(): p[1] -= 1
             return p
 
-        conv = lambda x: map(int, np.floor(x))
+        # conv = lambda x: map(int, np.floor(x))
+        def conv(x):            # Readability
+            return map(int, np.floor(x))
         
         ## The reason the indeces are extending to -2 and 10 is because the
         ## rotation is calculated as sin/cos, meaning, we need a long line to
@@ -165,6 +170,7 @@ class ImgTools():
                 res[point[0]][point[1]] = self.fg
         return res
 
+    # This should be declared static, but I don't care
     def rotate_point(self, center, point, angle):
         """Rotate point around center by angle
 

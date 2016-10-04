@@ -4,6 +4,12 @@ import abc
 import matplotlib.pyplot as plt
 
 class Map(object):
+    """
+    This is an abstract class for all the map classes.
+
+    The abstract methods are;
+    	create -- Creates data for plotting. Can use `create_from_f()` declared in the ImgTools
+    """
     __metaclass__ = abc.ABCMeta
 
     def __new__(cls, *args, **kwargs):
