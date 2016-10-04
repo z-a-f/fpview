@@ -55,7 +55,11 @@ class QualityMap(Map,ImgTools):
             Getter for the single block size
     """
 
-    def __init__(self, name, bg = [0,0,0,0], fg = [1,1,1,1], box = 8, qmax = 4.):
+    def __init__(self, name, bg = None, fg = None, box = 8, qmax = 4.):
+        if bg is None:
+            bg = [0,0,0,0]
+        if fg is None:
+            fg = [1,1,1,1]
         self.bg = bg
         self.fg = fg
         self.q_max = float(qmax)
