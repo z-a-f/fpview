@@ -67,7 +67,7 @@ class ImgTools():
             color = [color]*4
         elif type(color) is list:
             while len(color) < 4:
-                color = color + [0]
+                color += [0]    # color = color + [0]
         color[3] = val*1. / self.q_max
         return [[color]*self.get_box_size() for _ in xrange(self.get_box_size())]
 
