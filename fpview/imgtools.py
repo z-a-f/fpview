@@ -1,10 +1,11 @@
 
 import numpy as np
 import math
+import six
 
 class ImgTools():
     """Different tools for image plotting
-    
+
     TODO: Make a list of the tools here
     """
     def create_from_f(self, f):
@@ -15,7 +16,7 @@ class ImgTools():
         should return a `list` or `numpy.ndarray`
 
         Args:
-            f:  
+            f:
                 Function for generating the image boxes.
 
         NOTE:
@@ -39,14 +40,14 @@ class ImgTools():
 
         Args:
             val:
-                Binary input. If `True` or non-0, creates a box made of `fg` 
+                Binary input. If `True` or non-0, creates a box made of `fg`
                 pixels, otherwise made of `bg` pixels
 
         Returns:
             Monochrome box
         """
-        if val: return [[self.fg]*self.get_box_size() for _ in xrange(self.get_box_size())]
-        else: return [[self.bg]*self.get_box_size() for _ in xrange(self.get_box_size())]
+        if val: return [[self.fg]*self.get_box_size() for _ in six.range(self.get_box_size())]
+        else: return [[self.bg]*self.get_box_size() for _ in six.range(self.get_box_size())]
         # return self.__get_block(val)
 
     def create_block_gradient_alpha(self, val):
@@ -72,9 +73,9 @@ class ImgTools():
             while len(color) < 4:
                 color += [0]    # color = color + [0]
         color[3] = val*1. / self.q_max
-        return [[color]*self.get_box_size() for _ in xrange(self.get_box_size())]
+        return [[color]*self.get_box_size() for _ in six.range(self.get_box_size())]
 
-    
+
     # TODO: Need to finish that
     # def superimpose_blob_line(self, rot = 0):
     #     res = self.create_line(rot)
@@ -97,15 +98,15 @@ class ImgTools():
             The rotation is in the increments of 11.25 degrees clockwise
         """
         if rot == -1:
-            return [[self.bg]*self.get_box_size() for _ in xrange(self.get_box_size())]
-            
+            return [[self.bg]*self.get_box_size() for _ in six.range(self.get_box_size())]
+
         assert (0 <= rot <= 15)
         rot = rot*11.25
 
         # In case we want to draw something else:
         if base is None:
             # res = np.full((self.get_box_size(), self.get_box_size()), self.bg)
-            res = [[self.bg]*self.get_box_size() for _ in xrange(self.get_box_size())]
+            res = [[self.bg]*self.get_box_size() for _ in six.range(self.get_box_size())]
 
         def bound_point(p):
             while p[0] < 0: p[0] += 1
@@ -117,7 +118,7 @@ class ImgTools():
         # conv = lambda x: map(int, np.floor(x))
         def conv(x):            # Readability
             return map(int, np.floor(x))
-        
+
         ## The reason the indeces are extending to -2 and 10 is because the
         ## rotation is calculated as sin/cos, meaning, we need a long line to
         ## fill the diagonals
@@ -125,8 +126,8 @@ class ImgTools():
             ## 4 different origins for rotation
             # First quadrant
             origin = [(self.get_box_size() - 1) / 2, (self.get_box_size() - 1) / 2]
-            for idx in xrange(-2, origin[1] + 1):
-                #for jdx in xrange(4):
+            for idx in six.range(-2, origin[1] + 1):
+                #for jdx in six.range(4):
                 jdx = origin[1]
                 point = self.rotate_point(origin, [idx, jdx], rot)
                 point = conv(point)
@@ -135,7 +136,7 @@ class ImgTools():
 
             # Second quadrant
             origin[1] += 1
-            for idx in xrange(-2, origin[1] + 1):
+            for idx in six.range(-2, origin[1] + 1):
                 jdx = origin[1]
                 point = self.rotate_point(origin, [idx, jdx], rot)
                 point = conv(point)
@@ -144,7 +145,7 @@ class ImgTools():
 
             # Third quadrant
             origin[0] += 1
-            for idx in xrange(origin[1] + 1, self.get_box_size() + 2):
+            for idx in six.range(origin[1] + 1, self.get_box_size() + 2):
                 jdx = origin[1]
                 point = self.rotate_point(origin, [idx, jdx], rot)
                 point = conv(point)
@@ -153,7 +154,7 @@ class ImgTools():
 
             # Fourth quadrant
             origin[1] -= 1
-            for idx in xrange(origin[1] + 1, self.get_box_size() + 2):
+            for idx in six.range(origin[1] + 1, self.get_box_size() + 2):
                 jdx = origin[1]
                 point = self.rotate_point(origin, [idx, jdx], rot)
                 point = conv(point)
@@ -162,7 +163,7 @@ class ImgTools():
         else:
             ## Single rotation origin
             origin = [self.get_box_size() / 2, self.get_box_size() / 2]
-            for idx in xrange(self.get_box_size()):
+            for idx in six.range(self.get_box_size()):
                 jdx = origin[1]
                 point = self.rotate_point(origin, [idx, jdx], rot)
                 point = conv(point)
@@ -175,13 +176,13 @@ class ImgTools():
         """Rotate point around center by angle
 
         Args:
-            center: 
+            center:
                 Center point
-            point: 
+            point:
                 Point to be rotated
-            angle: 
+            angle:
                 Angle in radians to rotate by
-        
+
         Returns:
             New coordinates for the point
         """
